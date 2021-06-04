@@ -13,7 +13,7 @@ warning_sent="${datapath}/wsent"
 dms_sent="${datapath}/dmssent"
 
 # In this case, the mail(s) have been sent already.
-[ -f "${dms_sent}" ] && exit 0
+[ -f "${dms_sent}" ] && echo "The switch has been triggered already." && exit 0
 
 dead_name="Your Name"
 dead_address="${dead_name} <your@email.address>"
@@ -31,27 +31,39 @@ time_now="$(date +%s)"
 
 # In hours
 time_diff=$(( ( "${time_now}" - "${timestamp}" ) / 3600 ))
+echo "${time_diff} hours have passed since the last sign of life."
 # 336 hours are 14 days
 if [ "$time_diff" -ge 336 ]; then
+    echo "The switch is now being triggered."
     mail_text="Last login: $(date --date="@${timestamp}")"$'\n'"$(cat "${dead_man_message_path}")"
+    missing_attachments=false
     attachments=()
     for a in "${dead_man_attachment_paths[@]}"; do
-        attachments+=('-a' "${a}")
+        if [ -f "${a}" ]; then
+            attachments+=('-a' "${a}")
+        elif [ "${missing_attachments}" = false ]; then
+            mail_text="${mail_text}"$'\n'$'\n'"Some preplanned attachments could not be attached."
+        fi
     done
     for f in "${send_addresses[@]}"; do
+        echo "Sending mail to ${f}..."
         printf "%s\n" "${mail_text}" | mail -s "$subjectline" "${attachments[@]}" -r "$from_address" "$f"
     done
+    echo "Sending confirmation mail to address of dead person..."
     mail -s "$sentsubject" -r "$from_address" "$dead_address" < /dev/null
+    echo "All further executions of this script will now result in an immediate exit."
     touch "${dms_sent}"
     exit 0
 fi
 
 # In this case, the mail has been sent already.
-[ -f "${warning_sent}" ] && exit 0
+[ -f "${warning_sent}" ] && echo "The warning has been sent already." && exit 0
 
 # If the time difference has reached 336-24 hours before the send threshold, we send a warning (if not already done)
 if [ "$time_diff" -ge 312 ]; then
     mail_text="Last login: $(date --date="@${timestamp}")"$'\n'"$(cat "${dead_man_message_warning_path}")"
+    echo "Sending warning email..."
     printf "%s\n" "${mail_text}" | mail -s "$warningsubject" -r "$from_address" "$dead_address"
+    echo "No further warning emails will be sent."
     touch "${warning_sent}"
 fi
