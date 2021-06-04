@@ -1,0 +1,14 @@
+
+Above, you see the date and time of when I probably last logged into my server.
+It has been a while since I've logged in, hasn't it? This means something terrible must have happened to me.
+This might be shocking news to you, but please keep reading and follow these words.
+
+I've previously entrusted you with that special PGP private key, right? I hope you kept it well, because now's the time to use it. One of the attachments (message.gpg) is encrypted using the public key.
+
+Oh, one more thing before you do so: If you know beforehand that I am not dead, you should keep that in mind while following the encrypted instructions.
+
+To decrypt the file, you need to install gpg version 2. gpg version 1 might not work for this.
+On some Linux distros, you might have to replace `gpg` with `gpg2` below.
+
+gpg --import <the key file I gave you>
+gpg --decrypt message.gpg
