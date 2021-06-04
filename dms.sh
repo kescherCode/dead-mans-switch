@@ -11,6 +11,24 @@ dead_man_message_warning_path="${datapath}/dmm_warning"
 dead_man_attachment_paths=("${datapath}/message.gpg" "/path/to/other/important/file")
 warning_sent="${datapath}/wsent"
 dms_sent="${datapath}/dmssent"
+dns_killswitch_path="${datapath}/killswitch"
+# Don't want to use a DNS killswitch? Set the hostname variable to an empty value.
+dns_killswitch_hostname="_quitdms.example.tld"
+dns_killswitch_content="\"Sample text\""
+# If true, one dns match will disable the killswitch entirely.
+# If false or unset, a disappearing record will allow the dead man's switch to activate.
+dns_killswitch_permanent=true
+
+[ -f "${dns_killswitch_path}" ] && echo "Permanent killswitch set." && exit 0
+
+if [ -n "${dns_killswitch_hostname}" ]; then
+    query_result="$(dig +short -t txt "${dns_killswitch_hostname}")"
+    if [ "${dns_killswitch_content}" == "${query_result}" ]; then
+        echo "Found killswitch message."
+        [ "${dns_killswitch_permanent}" = true ] && touch "${dns_killswitch_path}" && echo "Permanent killswitch set."
+        exit 0
+    fi
+fi
 
 # In this case, the mail(s) have been sent already.
 [ -f "${dms_sent}" ] && echo "The switch has been triggered already." && exit 0
