@@ -4,7 +4,8 @@ A simple dead man's switch, set off using periodic script executions (using cron
 
 ## Dependencies
 
-`date`, any `mailx` provider (such as `s-nail`)
+`date`, any `mailx` provider (such as `s-nail`).
+Optional (when using the DNS killswitch feature): `dig`, often offered by the `bind` package on many Linux distros.
 
 ## A simple what?
 
