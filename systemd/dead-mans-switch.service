@@ -1,0 +1,10 @@
+[Unit]
+Description=Dead mans switch
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/path/to/dms
+TimeoutStartSec=1800
+Nice=-19
