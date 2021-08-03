@@ -50,14 +50,5 @@ That's because all the other "dead man's switch" repositories I've found online 
 I can't imagine I'm the only one that needs this project, so it's licensed under the WTFPL. Enjoy!
 
 ## Donate
-You feel like being generous or want to support me on stuff like free software development and hosting mirrors? In that case, I accept:
-
-- Monero
-`41jTvCnAwb12dicZgsneqAXAKeQqA8PEw1xwuWUb41iRHbxf9aFy3MqPZHxpJE4bdbfYevaXz8anp33prrPx7wXS4vvjYp2`
-(OpenAlias: `donatexmr.kescher.at`)
-
-- Liberapay:
-[![Liberapay donate button](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/kescher/donate)
-
-- Ko-Fi:
-[Donate using Ko-Fi](https://ko-fi.com/kescher)
+You feel like being generous or want to support me on stuff like free software development and hosting mirrors?
+In that case, please check the GitHub sidebar for this repo or my [website](https://kescher.at/#donate).
